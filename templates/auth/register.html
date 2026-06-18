@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+    <div class="auth_background d-flex justify-content-center align-items-center">
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="InputUsername" class="form-label">Email address</label>
+                <input type="text" class="form-control" id="InputUsername" aria-describedby="usernameHelp" name="username">
+                <div id="usernameHelp" class="form-text">{{ error }}</div>
+            </div>
+            <div class="mb-3">
+                <label for="InputPassword" class="form-label">Password</label>
+                <input type="password" class="form-control" id="InputPassword" name="password">
+            </div>
+            <div class="mb-3">
+                <label for="InputPassword" class="form-label">Password again</label>
+                <input type="password" class="form-control" id="InputPassword" name="confirm_password">
+            </div>
+            <div class="mb-3 form-check">
+                <p class="form-check-label">Already have an account? <a href="{% url 'login' %}">Login</a></p>
+            </div>
+            <input type="submit" class="btn btn-primary w-100" value="Register">
+        </form>
+    </div>
+
+{% endblock %}

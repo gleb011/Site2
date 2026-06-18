@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    
+    <div style="box-shadow: 0 0 0 1px blue;">
+        <p>profile</p>
+        <p>username: {{ user_data.username }}</p>
+        <p>first_name: {{ user_data.first_name }}</p>
+        <p>last_name: {{ user_data.last_name}}</p>
+
+
+        <hr>
+
+        {% if user_data.first_name or user_data.last_name %}
+            <p>{{ user_data.first_name }} {{ user_data.last_name}}</p>
+        {% else %}
+            <p>@{{ user_data.username }}</p>
+        {% endif %}
+
+        
+        {% if user_data.avatar %}
+        <img src="{{ user_data.avatar.url }}" alt="Аватарка">
+    {% else %}
+        <img src="{% static 'img/Avatar.png' %}" alt="Дефолтная аватарка">
+    {% endif %}
+    
+    </div>
+
+
+     <div style="box-shadow: 0 0 0 1px rgb(217, 255, 0);">
+        <p>Page</p>
+        <p>{{ page_title }}</p>1
+    </div>
+
+    
+{% endblock %}

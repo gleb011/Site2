@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p>{{ request.user }}</p>
+
+    <div>
+        <h2>Create post here</h2>
+        <a href="">Create post</a>
+    </div>
+
+
+    {% for post in post_list %}
+        <div>
+            <h2>Title: {{ post.title }}</h2>
+            <p>Desc: {{ post.description }}</p>
+            <p>Owner: {{ post.owner.username }}</p>
+            <p>is active: {{ post.is_active }}</p>
+            <p>is visible: {{ post.is_visible }}</p>
+            <p>date create: {{ post.date }}</p>
+            <hr>
+        </div>
+    {% endfor %}
+
+
+</body>
+</html>
