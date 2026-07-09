@@ -1,0 +1,44 @@
+*{
+	font-family: "Inter", sans-serif !important;
+}
+
+
+.nav_btn{
+	display: flex;
+	gap: 4px;
+	align-items: center;
+	color: #6C757D;
+	transition: .3s;
+	white-space: nowrap;
+	text-decoration: none;
+
+
+	svg{
+		width: 20px;
+		height: 20px;
+		fill: #6C757D;
+	}
+
+	*{
+		margin: 0;
+	}
+
+
+	&.active{
+		color: #0D6EFD;
+
+		svg{
+			fill: #0D6EFD;
+		}
+	}
+
+	&:hover{
+		color: #0D6EFD;
+
+		svg{
+			fill: #0D6EFD;
+		}
+	}
+}
+
+
