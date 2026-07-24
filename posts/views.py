@@ -101,8 +101,7 @@ class LikePost(View):
         post = Post.objects.get(id=post_id)
         owner = request.user
 
-
-        likes = Like.objects.filter(post=post)        
+        likes = Like.objects.filter(post=post)
 
         if owner in [like.owner for like in likes]:
             obj = Like.objects.get(post=post, owner=owner)
@@ -145,10 +144,12 @@ class PostDetail(View):
         user = User.objects.filter(id=self.request.user.id).first()
         return user
 
+    def likes_count(self, post):
+        likes_cont = Like.objects.filter(post=post)
+        return len(likes_cont)
+
     def get(self, request, pk):
         post = Post.objects.get(id=pk)
-        likes_cont = Like.objects.filter(post=post).count()
-
         review_list = Review.objects.filter( post=post,).order_by('-date')
 
         page_title = post.title
@@ -158,8 +159,8 @@ class PostDetail(View):
             'post': {
                 'post_info': post,
                 'post_likes': {
-                    'is_like': True,
-                    'likes_count': 300,
+                    'is_like': True, # дз - додати цю ф-цію
+                    'likes_count': self.likes_count(post),
                 },
                 'post_repost': {
                     'is_repost': True,
