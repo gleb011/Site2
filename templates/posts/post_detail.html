@@ -1,0 +1,46 @@
+{% extends 'posts/page_layout.html' %}
+{% load static %}
+
+{% block content %}
+<main class="py-4" style="background-color: #F7F7F7; min-height: calc(100vh - 57px);">
+    <div class="container">
+
+
+        {% include "include/posts/post_header.html" %}
+
+
+        <div class="row g-4">
+
+            <div class="col-md-7">
+
+
+                {% include "include/posts/post_media.html" %}
+
+
+                {% include "include/posts/comment_form.html" %}
+
+                {% for review in post.post_reviews.reviews_list %}
+                    {% include "include/posts/comment.html" with review=review %}
+                {% endfor %}
+     
+
+            </div>
+
+            <div class="col-md-5">
+
+
+                {% include "include/posts/trends.html" %}
+
+
+                {% include "include/posts/follow_list.html" %}
+
+
+            </div>
+
+        </div>
+    </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+{% endblock %}
+

@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import AnonymousUser
 from django.views import View
-from posts.models import Post
+from posts.models import Post, Like, Repost, Review
 from users.models import User
 
 
@@ -26,13 +26,12 @@ class Post_list_base(View):
     def get(self, request):
         self.redirect_to_login()
         context = self.get_data()
-        print(context)
         return render(request, self.template_name, context)
 
 
 class HomePage(Post_list_base):
     template_name = 'posts/home.html'
-    page_title = 'Home'
+    page_title = 'Home page'
 
     def get_data(self):
         context = super().get_data()
@@ -45,3 +44,149 @@ class HomePage(Post_list_base):
         })
         
         return context
+
+
+class CreatePost(View):
+    anonimys = AnonymousUser()
+    template_name = 'posts/post_create.html'
+    page_title = 'Creating post'
+
+    def get_user_data(self):
+        user = User.objects.filter(id=self.request.user.id).first()
+        return user
+    
+    def get(self, request):
+        context = {
+            'page_title': self.page_title,
+            'user_data': self.get_user_data(),
+        }
+
+        context = context
+        return render(request, self.template_name, context)
+    
+    def post(self, request):
+        title = request.POST.get('title')
+        description = request.POST.get('description')
+        poster = request.POST.get('poster')
+
+        if not title:
+            context = {
+                'page_title': self.page_title,
+                'errors': 'Немає Title',
+                'user_data': self.get_user_data(),
+            }
+            return render(request, self.template_name, context)
+
+        if request.user == self.anonimys:
+            context = {
+                'page_title': self.page_title,
+                'errors': 'Треба авторизація',
+                'user_data': self.get_user_data(),
+            }
+            return render(request, self.template_name, context)
+
+        post = Post.objects.create(
+            title = title, 
+            description = description,
+            poster = poster,
+            owner = request.user
+        )
+
+        return redirect('home_page')
+
+
+class LikePost(View):
+    def post(self, request):
+        post_id = request.POST.get('post_id')
+        post = Post.objects.get(id=post_id)
+        owner = request.user
+
+
+        likes = Like.objects.filter(post=post)        
+
+        if owner in [like.owner for like in likes]:
+            obj = Like.objects.get(post=post, owner=owner)
+            obj.delete()
+        else:
+            like = Like.objects.create(
+                owner=owner,
+                post=post
+            )
+
+        return redirect('home_page')
+
+
+class RepostPost(View):
+    def post(self, request):
+        post_id = request.POST.get('post_id')
+        post = Post.objects.get(id=post_id)
+        owner = request.user
+
+
+        reposts = Repost.objects.filter(post=post)
+
+        if owner in [repost.owner for repost in reposts]:
+            obj = Repost.objects.get(post=post, owner=owner)
+            obj.delete()
+        else:
+            repost = Repost.objects.create(
+                owner=owner,
+                post=post
+            )
+
+        return redirect('home_page')
+    
+
+class PostDetail(View):
+    anonimys = AnonymousUser()
+    template_name = 'posts/post_detail.html'
+
+    def get_user_data(self):
+        user = User.objects.filter(id=self.request.user.id).first()
+        return user
+
+    def get(self, request, pk):
+        post = Post.objects.get(id=pk)
+        likes_cont = Like.objects.filter(post=post).count()
+
+        review_list = Review.objects.filter( post=post,).order_by('-date')
+
+        page_title = post.title
+        context = {
+            'user_data': self.get_user_data(),
+            'page_title': page_title,
+            'post': {
+                'post_info': post,
+                'post_likes': {
+                    'is_like': True,
+                    'likes_count': 300,
+                },
+                'post_repost': {
+                    'is_repost': True,
+                    'repost_count': 300,
+                },
+                'post_reviews': {
+                    'reviews_list': review_list,
+                },
+            },
+        }
+
+        context = context
+        return render(request, self.template_name, context)
+    
+
+class ReviewPost(View):
+    def post(self, request):
+        post_id = request.POST.get('post_id')
+        post = Post.objects.get(id=post_id)
+        owner = request.user
+        text = request.POST.get('text')
+        print(f'Post ID: {post_id}, Owner: {owner}, Text: {text}')
+
+        review = Review.objects.create(
+            owner=owner,
+            post=post,
+            text=text,
+        )
+
+        return redirect('home_page')

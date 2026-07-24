@@ -1,0 +1,13 @@
+<div class="mb-4">
+    <h6 class="fw-bold mb-2">Comment</h6>
+    <form action="{% url 'review' %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="post_id" value="{{ post.post_info.id }}">
+        <input type="hidden" name="tread" value="">
+        <input type="hidden" name="parent" value="">
+        <textarea class="form-control border rounded-3 mb-3" name="text" rows="3" placeholder="Text" style="resize: none;"></textarea>
+        <div class="text-end">
+            <button type="submit" class="btn fw-semibold px-4 rounded-pill" style="background-color: #0D6EFD; color: #ffffff;">Comment</button>
+        </div>
+    </form>
+</div>

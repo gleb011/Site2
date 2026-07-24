@@ -1,0 +1,94 @@
+{% extends 'posts/page_layout.html' %}
+
+{% block content %}
+<main class="py-4" style="background-color: #F7F7F7; min-height: calc(100vh - 57px);">
+
+    <div class="container">
+
+        <div class="row mb-4">
+            <div class="col-12 d-flex align-items-center gap-2">
+                <a href="" class="text-dark">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M17.5 10H2.5M2.5 10L9.375 16.875M2.5 10L9.375 3.125" stroke="#212529" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </a>
+                <h1 class="fw-bold h2 m-0 text-dark">Create a post</h1>
+            </div>
+        </div>
+
+        <div class="row g-4">
+
+            <div class="col-md-7">
+
+                <form method="POST">
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        <button type="button" class="btn btn-light border w-100 text-start text-muted" style="pointer-events: none;">
+                            Choose a topic
+                        </button>
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="text" name="title" class="form-control" placeholder="Title" maxlength="300">
+                    </div>
+
+                    <div class="mb-3">
+                        <textarea name="description" class="form-control" placeholder="Text ( optional )" style="height: 220px; resize: none;"></textarea>
+                    </div>
+
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div class="d-flex gap-2">
+                            <button type="button" class="btn text-muted px-2">
+                                <svg width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="2.5" y="3.75" width="15" height="12.5" rx="1.5" stroke="#6C757D" stroke-width="1.5"/>
+                                    <circle cx="7" cy="8" r="1.25" stroke="#6C757D" stroke-width="1.5"/>
+                                    <path d="M2.5 13.75L6.875 10L10.625 13.125L14.375 9.375L17.5 12.5" stroke="#6C757D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                            <button type="button" class="btn text-muted px-2">
+                                GIF
+                            </button>
+                            <button type="button" class="btn text-muted px-2">
+                                <svg width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="10" cy="10" r="7.5" stroke="#6C757D" stroke-width="1.5"/>
+                                    <circle cx="7.25" cy="8.5" r="0.9" fill="#6C757D"/>
+                                    <circle cx="12.75" cy="8.5" r="0.9" fill="#6C757D"/>
+                                    <path d="M6.75 12C7.5 13.1 8.65 13.75 10 13.75C11.35 13.75 12.5 13.1 13.25 12" stroke="#6C757D" stroke-width="1.5" stroke-linecap="round"/>
+                                </svg>
+                            </button>
+                            <button type="button" class="btn text-muted px-2">
+                                <svg width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="2.5" y="5.625" width="10" height="8.75" rx="1.5" stroke="#6C757D" stroke-width="1.5"/>
+                                    <path d="M12.5 8.75L17.5 6.25V13.75L12.5 11.25" stroke="#6C757D" stroke-width="1.5" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <button type="submit" class="btn fw-semibold px-4 rounded-pill" style="background-color: #0D6EFD; color: #ffffff;">Post</button>
+                    </div>
+
+                </form>
+
+            </div>
+
+            <div class="col-md-5">
+                <div class="p-4">
+                    <h5 class="fw-bold mb-3">Posting rules</h5>
+                    <ol class="ps-3 m-0">
+                        <li class="mb-2">Remember the human</li>
+                        <li class="mb-2">Behave like you would in real life</li>
+                        <li class="mb-2">Look for the original source of content</li>
+                        <li class="mb-2">Search for duplicates before posting</li>
+                        <li class="mb-0">Read the community's rules</li>
+                    </ol>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+</main>
+{% endblock %}

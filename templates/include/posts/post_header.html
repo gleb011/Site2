@@ -1,0 +1,16 @@
+<div class="row mb-4">
+    <div class="col-12 d-flex align-items-start justify-content-between">
+        <div class="d-flex align-items-center gap-3">
+            <a href="#" class="text-dark d-flex align-items-center" style="text-decoration: none;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20 11H7.83L13.42 5.41L12 4L4 12L12 20L13.41 18.59L7.83 13H20V11Z" fill="#212529"/>
+                </svg>
+            </a>
+            <div>
+                <h1 class="fw-bold h2 m-0 text-dark">{{ post.post_info.title }}</h1>
+                <p class="m-0 text-muted small mt-1">Posted by @{{ post.post_info.owner.username }}</p>
+            </div>
+        </div>
+        <span class="text-muted small mt-1">{{ post.post_info.date|timesince }}</span>
+    </div>
+</div>
