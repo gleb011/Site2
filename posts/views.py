@@ -147,6 +147,23 @@ class PostDetail(View):
     def likes_count(self, post):
         likes_cont = Like.objects.filter(post=post)
         return len(likes_cont)
+    
+    def is_liked(self, post):
+        if self.request.user == self.anonimys:
+            return False
+        return Like.objects.filter(post=post, owner=self.request.user).exists()
+    
+    def reviews_count(self, post):
+        return Review.objects.filter(post=post).count()
+    
+    def reposts_count(self, post):
+        return Repost.objects.filter(post=post).count()
+
+    def is_reposted(self, post):
+        if self.request.user == self.anonimys:
+            return False
+        return Repost.objects.filter(post=post, owner=self.request.user).exists()
+        
 
     def get(self, request, pk):
         post = Post.objects.get(id=pk)
@@ -159,14 +176,15 @@ class PostDetail(View):
             'post': {
                 'post_info': post,
                 'post_likes': {
-                    'is_like': True, # дз - додати цю ф-цію
+                    'is_like': self.is_liked(post), 
                     'likes_count': self.likes_count(post),
                 },
-                'post_repost': {
-                    'is_repost': True,
-                    'repost_count': 300,
+                'post_repost': { 
+                    'is_repost': self.is_reposted(post),
+                    'repost_count': self.reposts_count(post),
                 },
                 'post_reviews': {
+                    'reviews_count': self.reviews_count(post),
                     'reviews_list': review_list,
                 },
             },
