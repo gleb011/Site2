@@ -24,8 +24,11 @@ class Post_base(View):
         }
         return context
 
-    def get(self, request):
-        context = self.get_data()
+    def get(self, request, **kwargs):
+        if 'pk' in kwargs:
+            context = self.get_data(pk=kwargs.get('pk'))
+        else:
+            context = self.get_data()
         return render(request, self.template_name, context)
 
 
@@ -53,7 +56,7 @@ class Post_list_base(View):
         return render(request, self.template_name, context)
 
 
-class HomePage(Post_list_base):
+class HomePage(Post_base):
     template_name = 'posts/home.html'
     page_title = 'Home page'
 
@@ -160,13 +163,8 @@ class RepostPost(View):
         return redirect('home_page')
     
 
-class PostDetail(View):
-    anonimys = AnonymousUser()
+class PostDetail(Post_base):
     template_name = 'posts/post_detail.html'
-
-    def get_user_data(self):
-        user = User.objects.filter(id=self.request.user.id).first()
-        return user
 
     def likes_count(self, post):
         likes_cont = Like.objects.filter(post=post)
@@ -189,13 +187,13 @@ class PostDetail(View):
         return Repost.objects.filter(post=post, owner=self.request.user).exists()
         
 
-    def get(self, request, pk):
+    def get_data(self, pk):
+        context = super().get_data()
         post = Post.objects.get(id=pk)
         review_list = Review.objects.filter( post=post,).order_by('-date')
-
         page_title = post.title
-        context = {
-            'user_data': self.get_user_data(),
+
+        context.update({
             'page_title': page_title,
             'post': {
                 'post_info': post,
@@ -212,11 +210,10 @@ class PostDetail(View):
                     'reviews_list': review_list,
                 },
             },
-        }
+        })
+        
+        return context
 
-        context = context
-        return render(request, self.template_name, context)
-    
 
 class ReviewPost(View):
     def post(self, request):
