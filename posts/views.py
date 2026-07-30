@@ -5,6 +5,30 @@ from posts.models import Post, Like, Repost, Review
 from users.models import User
 
 
+class Post_base(View):
+    '''
+        Variable "template_name" is required
+        - template_name = name of template curent page (from dir "templates" (ex: page_dir/page_name.html))
+    '''
+    anonimys = AnonymousUser()
+
+    def get_user_data(self):
+        if self.request.user == self.anonimys:
+            return None
+        user = self.request.user
+        return user
+
+    def get_data(self):
+        context = {
+            'user_data': self.get_user_data(),
+        }
+        return context
+
+    def get(self, request):
+        context = self.get_data()
+        return render(request, self.template_name, context)
+
+
 class Post_list_base(View):
     anonimys = AnonymousUser()
 

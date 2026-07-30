@@ -1,35 +1,42 @@
 {% load static %}
 
-<div class="dropdown">
-    <div class="d-flex gap-3 align-items-center" style="cursor: pointer;" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-        <h6 class="m-0" style="font-size: 14px; font-weight: 500; color: #333;">
-            {% if user_data.first_name or user_data.last_name %}
-                {{ user_data.first_name }} {{ user_data.last_name}}
+{% if user_data %}
+    <div class="dropdown">
+        <div class="d-flex gap-3 align-items-center" style="cursor: pointer;" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            <h6 class="m-0" style="font-size: 14px; font-weight: 500; color: #333;">
+                {% if user_data.first_name or user_data.last_name %}
+                    {{ user_data.first_name }} {{ user_data.last_name}}
+                {% else %}
+                    @{{ user_data.username }}
+                {% endif %}
+            </h6>
+
+            {% if user_data.avatar %}
+                <img src="{{ user_data.avatar.url }}" alt="Аватарка"  class="rounded-circle" style="width: 32px; height: 32px; object-fit: cover; box-shadow: 0 0 0 2px #fff, 0 0 0 4px #0d6efd20;">
             {% else %}
-                @{{ user_data.username }}
+                <img src="{% static 'img/Avatar.png' %}" alt="Дефолтная аватарка"  class="rounded-circle" style="width: 32px; height: 32px; object-fit: cover; box-shadow: 0 0 0 2px #fff, 0 0 0 4px #0d6efd20;">
             {% endif %}
-        </h6>
 
-        {% if user_data.avatar %}
-            <img src="{{ user_data.avatar.url }}" alt="Аватарка"  class="rounded-circle" style="width: 32px; height: 32px; object-fit: cover; box-shadow: 0 0 0 2px #fff, 0 0 0 4px #0d6efd20;">
-        {% else %}
-            <img src="{% static 'img/Avatar.png' %}" alt="Дефолтная аватарка"  class="rounded-circle" style="width: 32px; height: 32px; object-fit: cover; box-shadow: 0 0 0 2px #fff, 0 0 0 4px #0d6efd20;">
-        {% endif %}
+        </div>
 
+        <div class="dropdown-menu dropdown-menu-end shadow-sm border p-2 mt-2" style="border-radius: 12px; min-width: 170px;" aria-labelledby="profileDropdown">
+            <a class="dropdown-item py-2 px-3 rounded d-flex align-items-center gap-2 small" style="transition: all 0.2s;" href="#">
+                My Profile
+            </a>
+            <a class="dropdown-item py-2 px-3 rounded d-flex align-items-center gap-2 small" style="transition: all 0.2s;" href="#">
+                Favorites
+            </a>
+            <a class="dropdown-item py-2 px-3 rounded d-flex align-items-center gap-2 small" style="transition: all 0.2s;" href="#">
+                Settings
+            </a>
+            <a class="dropdown-item py-2 px-3 rounded d-flex align-items-center gap-2 small text-danger" style="transition: all 0.2s; font-weight: 500; background-color: transparent;" href="#">
+                Log Out
+            </a>
+        </div>
     </div>
-
-    <div class="dropdown-menu dropdown-menu-end shadow-sm border p-2 mt-2" style="border-radius: 12px; min-width: 170px;" aria-labelledby="profileDropdown">
-        <a class="dropdown-item py-2 px-3 rounded d-flex align-items-center gap-2 small" style="transition: all 0.2s;" href="#">
-            My Profile
-        </a>
-        <a class="dropdown-item py-2 px-3 rounded d-flex align-items-center gap-2 small" style="transition: all 0.2s;" href="#">
-            Favorites
-        </a>
-        <a class="dropdown-item py-2 px-3 rounded d-flex align-items-center gap-2 small" style="transition: all 0.2s;" href="#">
-            Settings
-        </a>
-        <a class="dropdown-item py-2 px-3 rounded d-flex align-items-center gap-2 small text-danger" style="transition: all 0.2s; font-weight: 500; background-color: transparent;" href="#">
-            Log Out
-        </a>
+{% else %}
+    <div class="d-flex gap-3 align-items-center">
+        <a href="" class="btn btn-primary btn-sm">Register</a>
+        <a href="" class="btn btn-outline-primary btn-sm">Sign in</a>
     </div>
-</div>
+{% endif %}
