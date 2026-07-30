@@ -1,5 +1,6 @@
 {% load static %}
 
+{% if user_data %}
 <div class="card p-4 mb-4 border rounded-4 bg-white">
 
     <div class="d-flex align-items-center justify-content-between">
@@ -22,11 +23,11 @@
 
         </div>
 
-    <a href="{% url 'post_create' %}" class="btn fw-semibold px-4 rounded-pill" style="background-color: #0D6EFD; color: #ffffff;">
-        Create a post
-    </a>
-
-
+        <a href="{% url 'post_create' %}" class="btn fw-semibold px-4 rounded-pill" style="background-color: #0D6EFD; color: #ffffff;">
+            Create a post
+        </a>
     </div>
 
 </div>
+
+{% endif %}
